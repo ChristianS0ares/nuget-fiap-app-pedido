@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>nuget_fiap_app_pedido_repository</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+  </ItemGroup>
+
+
+   <ItemGroup>
+     <ProjectReference Include="..\nuget-fiap-app-pedido-common\nuget-fiap-app-pedido-common.csproj" />
+   </ItemGroup>	
+
+</Project>
