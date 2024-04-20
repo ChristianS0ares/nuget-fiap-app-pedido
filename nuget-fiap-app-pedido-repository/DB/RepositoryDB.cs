@@ -44,7 +44,7 @@ namespace nuget_fiap_app_pedido_repository.DB
                 Environment.SetEnvironmentVariable("DB_USER", "admin"); // Usuário padrão
 
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DB_HOST")))
-                Environment.SetEnvironmentVariable("DB_HOST", "mongo:27017"); // Host padrão
+                Environment.SetEnvironmentVariable("DB_HOST", "localhost:27017"); // Host padrão
         }
     }
 }

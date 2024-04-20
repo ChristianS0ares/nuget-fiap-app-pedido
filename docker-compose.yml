@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongo-express:
-    container_name: mongo-express-app-produto
+    container_name: mongo-express-app-pedido
     image: mongo-express
     ports:
       - "8081:8081"
@@ -19,7 +19,7 @@ services:
       - mongo-compose-network
 
   mongo:
-    container_name: mongo-db-app-produto
+    container_name: mongo-db-app-pedido
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -29,20 +29,20 @@ services:
     networks:
       - mongo-compose-network
 
-  api:
-    container_name: app-produto
-    build:
-      context: .  # Caminho para o Dockerfile da aplicação
-    environment:
-      DB_ROOT_PASSWORD: pass123
-      DB_ROOT_USERNAME: admin
-      DB_HOST: mongo  
-    ports:
-      - "8080:80"
-    depends_on:
-      - mongo
-    networks:
-      - mongo-compose-network
+  # api:
+    # container_name: app-pedido
+    # build:
+      # context: .  # Caminho para o Dockerfile da aplicação
+    # environment:
+      # DB_PASSWORD: pass123
+      # DB_USER: admin
+      # DB_HOST: mongo  
+    # ports:
+      # - "8082:80"
+    # depends_on:
+      # - mongo
+    # networks:
+      # - mongo-compose-network
 
 networks: 
   mongo-compose-network:

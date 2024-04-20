@@ -1,20 +1,50 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using nuget_fiap_app_pedido.Service;
+using nuget_fiap_app_pedido_common.Interfaces.Repository;
+using nuget_fiap_app_pedido_common.Interfaces.Services;
+using nuget_fiap_app_pedido_repository;
+using nuget_fiap_app_pedido_repository.DB;
+using nuget_fiap_app_pedido_repository.DTO;
+using System;
+using Microsoft.Extensions.Caching.Memory;
+
 public partial class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Configurações dos serviços e repositórios
-        //builder.Services.AddScoped<IProdutoService, ProdutoService>();
+        // Adicione configuração do MemoryCache
+        builder.Services.AddMemoryCache();
+        var configuration = builder.Configuration;
 
+        // Configurando ProdutoAPIRepository com HttpClient e parâmetros necessários
+        builder.Services.AddHttpClient("ProdutoAPI", client =>
+        {
+            client.BaseAddress = new Uri(configuration["ProdutoApi:BaseUrl"]);
+        });
 
-        // Configurações do HealthCheck
+        // Registra o ProdutoAPIRepository com os parâmetros requeridos incluindo IMemoryCache e baseUrl
+        builder.Services.AddScoped<IProdutoAPIRepository, ProdutoAPIRepository>(serviceProvider =>
+        {
+            var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+            var httpClient = httpClientFactory.CreateClient("ProdutoAPI");
+            var memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+            var baseUrl = configuration["ProdutoApi:BaseUrl"];
+            return new ProdutoAPIRepository(httpClient, memoryCache, baseUrl);
+        });
+
+        // Registro de outros serviços e repositórios
+        builder.Services.AddScoped<RepositoryDB>();
+        builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+        builder.Services.AddScoped<IPedidoService, PedidoService>();
+        builder.Services.AddMemoryCache();
+
+        // Configuração do HealthCheck e Swagger
         builder.Services.AddHealthChecks();
-
-        // Adiciona e configura os controllers
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
@@ -33,13 +63,16 @@ public partial class Program
 
         var app = builder.Build();
 
-        // Configura o pipeline de requisições HTTP
+        // Configuração do pipeline de requisições HTTP
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "NuGET Burger API V1");
+        });
         app.UseReDoc(c =>
         {
             c.DocumentTitle = "REDOC API Documentation";
-            c.SpecUrl = "/swagger/v1/swagger.json";
+            c.SpecUrl("/swagger/v1/swagger.json");
         });
 
         app.UseAuthorization();
