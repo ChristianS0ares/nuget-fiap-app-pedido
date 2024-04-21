@@ -29,20 +29,20 @@ services:
     networks:
       - mongo-compose-network
 
-  # api:
-    # container_name: app-pedido
-    # build:
-      # context: .  # Caminho para o Dockerfile da aplicação
-    # environment:
-      # DB_PASSWORD: pass123
-      # DB_USER: admin
-      # DB_HOST: mongo  
-    # ports:
-      # - "8082:80"
-    # depends_on:
-      # - mongo
-    # networks:
-      # - mongo-compose-network
+  api:
+    container_name: app-pedido
+    build:
+      context: .  # Caminho para o Dockerfile da aplicação
+    environment:
+      DB_PASSWORD: pass123
+      DB_USER: admin
+      DB_HOST: localhost  
+    ports:
+      - "8082:80"
+    depends_on:
+      - mongo
+    networks:
+      - mongo-compose-network
 
 networks: 
   mongo-compose-network:
