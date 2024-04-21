@@ -16,7 +16,7 @@ services:
     links:
       - mongo
     networks:
-      - mongo-compose-network
+      - nugetlanches-network
 
   mongo:
     container_name: mongo-db-app-pedido
@@ -27,7 +27,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - mongo-compose-network
+      - nugetlanches-network
 
   api:
     container_name: app-pedido
@@ -42,8 +42,8 @@ services:
     depends_on:
       - mongo
     networks:
-      - mongo-compose-network
+      - nugetlanches-network
 
 networks: 
-  mongo-compose-network:
+  nugetlanches-network:
     driver: bridge
