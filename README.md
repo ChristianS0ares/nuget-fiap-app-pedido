@@ -84,7 +84,7 @@ set ProdutoApi__BaseUrl=https://api-de-produtos-prod/endereco
 Para visualizar o relatório de cobertura de testes, navegue até o diretório `nuget-fiap-app-pedido-test/coveragereport` e abra o arquivo `index.html`. Este relatório fornece uma visão detalhada da cobertura de testes alcançada pelos testes unitários e de integração, ajudando a identificar áreas do código que podem necessitar de mais atenção em termos de testes.
 
 
-![](nuget-fiap-app-pedido-test/coverage.png)
+![](nuget-fiap-app-pedido-test/coverage.PNG)
 
 ### Geração de Relatório de Cobertura de Testes
 Para gerar um relatório detalhado de cobertura de testes, que permite avaliar quais partes do código foram efetivamente testadas, siga os passos abaixo:
@@ -109,7 +109,7 @@ O ReportGenerator deve estar instalado globalmente ou disponível como uma ferra
 
 ## Consumo da API
 
-Para facilitar o consumo e teste da API, disponibilizamos uma [coleção](api-pedido.postman_collection.json) do Postman que contém modelos pré-configurados de requisições. Abaixo estão detalhadas as rotas disponíveis, juntamente com exemplos de uso para cada operação.
+Para facilitar o consumo e teste da API, disponibilizamos uma [coleção](api-pedidos.postman_collection.json) do Postman que contém modelos pré-configurados de requisições. Abaixo estão detalhadas as rotas disponíveis, juntamente com exemplos de uso para cada operação.
 
 
 ### Pedidos
