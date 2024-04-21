@@ -19,6 +19,7 @@ namespace nuget_fiap_app_pedido_test.Service
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task AddPedido_ReturnsPedidoId_WhenValidItems()
         {
             // Arrange
@@ -36,6 +37,7 @@ namespace nuget_fiap_app_pedido_test.Service
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdatePedido_ReturnsFalse_WhenPedidoDoesNotExist()
         {
             // Arrange
@@ -52,6 +54,7 @@ namespace nuget_fiap_app_pedido_test.Service
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task UpdatePedido_ReturnsTrue_WhenPedidoExists()
         {
             // Arrange
@@ -71,6 +74,7 @@ namespace nuget_fiap_app_pedido_test.Service
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task DeletePedido_ReturnsTrue_WhenPedidoDeleted()
         {
             // Arrange
@@ -84,6 +88,7 @@ namespace nuget_fiap_app_pedido_test.Service
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAllPedidos_ReturnsPedidos()
         {
             // Arrange
@@ -98,6 +103,7 @@ namespace nuget_fiap_app_pedido_test.Service
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetPedidoById_ReturnsPedido()
         {
             // Arrange

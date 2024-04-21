@@ -21,7 +21,7 @@ namespace nuget_fiap_app_pedido_test.Service
         {
             var httpClient = new HttpClient();
             var memoryCache = new MemoryCache(new MemoryCacheOptions());
-            var baseUrl = "http://localhost:8080/";
+            var baseUrl = "http://localhost:8080/";//Usa o serviço local para teste
 
             _repositoryDB = new RepositoryDB(); 
             _pedidoRepository = new PedidoRepository(_repositoryDB);
