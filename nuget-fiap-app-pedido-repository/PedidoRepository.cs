@@ -16,9 +16,6 @@ namespace nuget_fiap_app_pedido_repository
         }
         public async Task<string> AddPedido(Pedido pedido)
         {
-            if (string.IsNullOrWhiteSpace(pedido.Id))
-                pedido.Id = Guid.NewGuid().ToString();
-
             await _pedidos.InsertOneAsync(pedido);
 
             return pedido.Id;
