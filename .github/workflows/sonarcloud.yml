@@ -46,5 +46,11 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"ChristianS0ares_nuget-fiap-app-pedido" /o:"christians0ares" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build .\nuget-fiap-app-pedido-server\nuget-fiap-app-pedido-server.sln -c Release
-          dotnet test ./nuget-fiap-app-pedido-test/nuget-fiap-app-pedido-test.sln /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+          dotnet test --filter Category=Unit
+          dotnet test --filter Category=Integration
+          set ProdutoApi__BaseUrl=https://api-de-produtos-prod/endereco
+          dotnet test --filter Category=bdd
+          set ProdutoApi__BaseUrl=https://api-de-produtos-prod/endereco
+          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+          reportgenerator -reports:"coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
