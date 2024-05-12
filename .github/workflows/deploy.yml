@@ -32,7 +32,7 @@ jobs:
           cd terraform
           terraform init -upgrade
           terraform apply -auto-approve\
-            -var="aws_region=${{ secrets.AWS_REGION }}" \
+            -var="aws_region=${{ secrets.AWS_REGION }}"
             CLUSTER_NAME=$(terraform output -raw cluster_name)
             echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_ENV
 
