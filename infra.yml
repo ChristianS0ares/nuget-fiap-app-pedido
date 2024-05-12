@@ -1,0 +1,20 @@
+Description: Cria um cluster MongoDB Atlas usando o AWS CloudFormation
+
+Parameters:
+  AtlasUsername:
+    Type: String
+    Description: Nome de usuário para acessar o MongoDB Atlas
+  AtlasPassword:
+    Type: String
+    NoEcho: true
+    Description: Senha para acessar o MongoDB Atlas
+  ClusterName:
+    Type: String
+    Description: Nome do cluster MongoDB Atlas
+
+Resources:
+  AtlasCluster:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://atlas.hashicorp.com/mongodb/atlas-cfn/1.4.0?atlasUsername=!Ref 'AtlasUsername'&atlasPassword=!Ref 'AtlasPassword'&atlasClusterName=!Ref 'ClusterName'
+      TimeoutInMinutes: 15

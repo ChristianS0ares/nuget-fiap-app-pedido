@@ -1,0 +1,13 @@
+nuget-fiap-app-pedido-test-bdd/bin/
+nuget-fiap-app-pedido-test-bdd/obj/
+nuget-fiap-app-pedido-test/bin/
+nuget-fiap-app-pedido-test/obj/
+nuget-fiap-app-pedido-repository/obj/
+nuget-fiap-app-pedido-repository/bin/
+nuget-fiap-app-pedido-server/obj/
+nuget-fiap-app-pedido-server/bin/
+nuget-fiap-app-pedido-server/.vs/
+nuget-fiap-app-pedido-common/obj/
+nuget-fiap-app-pedido-common/bin/
+nuget-fiap-app-pedido/obj/
+nuget-fiap-app-pedido/bin/
