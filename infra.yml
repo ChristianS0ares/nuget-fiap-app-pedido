@@ -1,20 +1,68 @@
 Description: Cria um cluster MongoDB Atlas usando o AWS CloudFormation
 
 Parameters:
-  AtlasUsername:
+  AtlasProjectName:
     Type: String
-    Description: Nome de usuário para acessar o MongoDB Atlas
-  AtlasPassword:
-    Type: String
-    NoEcho: true
-    Description: Senha para acessar o MongoDB Atlas
+    Default: "MongoDBAtlas"
+    Description: "Name of the MongoDB Atlas project"
   ClusterName:
     Type: String
-    Description: Nome do cluster MongoDB Atlas
+    Default: "MongoDBAtlas"
+    Description: "Name of the MongoDB Atlas cluster"
+  RegionName:
+    Type: String
+    Default: "us-east-1"
+    Description: "AWS region where the cluster will be deployed"
+  InstanceSize:
+    Type: String
+    Default: "M2"
+    Description: "Size of each MongoDB instance in the cluster"
+  NumInstances:
+    Type: Number
+    Default: 1
+    Description: "Number of instances in the cluster"
+  MongoDBVersion:
+    Type: String
+    Default: "4.4"
+    Description: "Version of MongoDB to use in the cluster"
+  Username:
+    Type: String
+    Default: "nuget"
+    Description: "Username for accessing the MongoDB cluster"
+  Password:
+    Type: String
+    Default: "12345678"
+    NoEcho: true
+    Description: "Password for accessing the MongoDB cluster"
+  ProjectID:
+    Type: String
+    Default: "nugetID"
+    Description: "ID of the MongoDB Atlas project"
+  PublicKey:
+    Type: String
+    Default: "nugetPublicKey"
+    Description: "Public API key for accessing MongoDB Atlas"
+  PrivateKey:
+    Type: String
+    Default: "nugetPrivateKey"
+    NoEcho: true
+    Description: "Private API key for accessing MongoDB Atlas"
 
 Resources:
   AtlasCluster:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://atlas.hashicorp.com/mongodb/atlas-cfn/1.4.0?atlasUsername=!Ref 'AtlasUsername'&atlasPassword=!Ref 'AtlasPassword'&atlasClusterName=!Ref 'ClusterName'
-      TimeoutInMinutes: 15
+      TemplateURL: "https://atlas-aws-cloudformation.s3.amazonaws.com/quickstart.yml"
+      TimeoutInMinutes: 30
+      Parameters:
+        AtlasProjectName: !Ref AtlasProjectName
+        ClusterName: !Ref ClusterName
+        RegionName: !Ref RegionName
+        InstanceSize: !Ref InstanceSize
+        NumInstances: !Ref NumInstances
+        MongoDBVersion: !Ref MongoDBVersion
+        Username: !Ref Username
+        Password: !Ref Password
+        ProjectID: !Ref ProjectID
+        PublicKey: !Ref PublicKey
+        PrivateKey: !Ref PrivateKey
