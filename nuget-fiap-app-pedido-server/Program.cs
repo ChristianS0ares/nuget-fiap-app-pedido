@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using nuget_fiap_app_pedido.Service;
 using nuget_fiap_app_pedido_common.Interfaces.Repository;
 using nuget_fiap_app_pedido_common.Interfaces.Services;
 using nuget_fiap_app_pedido_repository;
 using nuget_fiap_app_pedido_repository.DB;
-using nuget_fiap_app_pedido_repository.DTO;
-using System;
 using Microsoft.Extensions.Caching.Memory;
+using nuget_fiap_app_pedido_repository.Interface;
+using nuget_fiap_app_pedido_repository.Services;
+using nuget_fiap_app_pedido_repository.Messaging;
 
 public partial class Program
 {
@@ -39,8 +39,11 @@ public partial class Program
 
         // Registro de outros serviços e repositórios
         builder.Services.AddScoped<RepositoryDB>();
+        builder.Services.AddScoped<RabbitMQConnection>();
         builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
         builder.Services.AddScoped<IPedidoService, PedidoService>();
+        builder.Services.AddScoped<IPedidoQueueOUT, PedidoQueueOUT>();
+        builder.Services.AddScoped<IPedidoQueueIN, PedidoQueueIN>();
         builder.Services.AddMemoryCache();
 
         // Configuração do HealthCheck e Swagger
@@ -87,6 +90,13 @@ public partial class Program
             },
         });
 
+        // Criar um escopo para resolver IPedidoQueueIN
+        using (var scope = app.Services.CreateScope())
+        {
+            var scopedServices = scope.ServiceProvider;
+            var pedidoQueueIN = scopedServices.GetRequiredService<IPedidoQueueIN>();
+            pedidoQueueIN.StartListening(new string[] { "pedido-pagamento-recusado", "pedido-em-preparacao", "pedido-pronto" });
+        }
         app.Run();
     }
 }

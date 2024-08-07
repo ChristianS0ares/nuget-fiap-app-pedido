@@ -37,6 +37,7 @@ services:
       DB_PASSWORD: pass123
       DB_USER: admin
       DB_HOST: localhost  
+      HOST_RABBITMQ: host=localhost  
     ports:
       - "8082:80"
     depends_on:

@@ -3,7 +3,7 @@ using Xunit;
 using nuget_fiap_app_pedido_common.Interfaces.Repository;
 using nuget_fiap_app_pedido_common.Models;
 using nuget_fiap_app_pedido.Service;
-
+using nuget_fiap_app_pedido_repository.Interface;
 
 namespace nuget_fiap_app_pedido_test.Service
 {
@@ -11,11 +11,12 @@ namespace nuget_fiap_app_pedido_test.Service
     {
         private readonly Mock<IPedidoRepository> _mockPedidoRepository = new Mock<IPedidoRepository>();
         private readonly Mock<IProdutoAPIRepository> _mockProdutoRepository = new Mock<IProdutoAPIRepository>();
+        private readonly Mock<IPedidoQueueOUT> _mockPedidoQueueOUT = new Mock<IPedidoQueueOUT>();
         private readonly PedidoService _pedidoService;
 
         public PedidoServiceTests()
         {
-            _pedidoService = new PedidoService(_mockPedidoRepository.Object, _mockProdutoRepository.Object);
+            _pedidoService = new PedidoService(_mockPedidoRepository.Object, _mockProdutoRepository.Object, _mockPedidoQueueOUT.Object);
         }
 
         [Fact]

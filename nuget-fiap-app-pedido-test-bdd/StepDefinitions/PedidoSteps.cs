@@ -130,7 +130,8 @@ namespace nuget_fiap_app_pedido_test.BDD
         {
             _response.EnsureSuccessStatusCode();
             var pedidos = await _response.Content.ReadFromJsonAsync<List<Pedido>>();
-            pedidos.Should().Contain(pedido => pedido.Cliente.Nome == nomeCliente);
+            pedidos.Should().Contain(pedido => pedido.Cliente != null && pedido.Cliente.Nome == nomeCliente);
+
         }
 
         [Then(@"o pedido deve ser adicionado com sucesso e contendo os itens ""(.*)"" e ""(.*)""")]

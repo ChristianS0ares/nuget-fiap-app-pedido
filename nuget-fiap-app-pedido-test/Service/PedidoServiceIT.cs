@@ -7,6 +7,8 @@ using Xunit;
 using nuget_fiap_app_pedido.Service;
 using nuget_fiap_app_pedido_repository.Interface;
 using Microsoft.Extensions.Caching.Memory;
+using nuget_fiap_app_pedido_repository.Services;
+using nuget_fiap_app_pedido_repository.Messaging;
 
 namespace nuget_fiap_app_pedido_test.Service
 {
@@ -14,8 +16,10 @@ namespace nuget_fiap_app_pedido_test.Service
     {
         private readonly PedidoService _pedidoService;
         private readonly RepositoryDB _repositoryDB;
+        private readonly RabbitMQConnection _rabbitmqConnection;
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IProdutoAPIRepository _produtoRepository;
+        private readonly IPedidoQueueOUT _pedidoQueueOUT;
 
         public PedidoServiceIT()
         {
@@ -25,8 +29,10 @@ namespace nuget_fiap_app_pedido_test.Service
 
             _repositoryDB = new RepositoryDB(); 
             _pedidoRepository = new PedidoRepository(_repositoryDB);
-            _produtoRepository = new ProdutoAPIRepository(httpClient, memoryCache, baseUrl); 
-            _pedidoService = new PedidoService(_pedidoRepository, _produtoRepository);
+            _produtoRepository = new ProdutoAPIRepository(httpClient, memoryCache, baseUrl);
+            _rabbitmqConnection = new RabbitMQConnection();
+            _pedidoQueueOUT = new PedidoQueueOUT(_rabbitmqConnection);
+            _pedidoService = new PedidoService(_pedidoRepository, _produtoRepository, _pedidoQueueOUT);
         }
 
         [Fact]
