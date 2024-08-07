@@ -9,5 +9,6 @@ namespace nuget_fiap_app_pedido_common.Interfaces.Services
         Task<string> AddPedido(Pedido pedido);
         Task<bool> UpdatePedido(Pedido pedido, string id);
         Task<bool> DeletePedido(string id);
+        Task<bool> AtualizaStatus(string id, string status);
     }
 }
