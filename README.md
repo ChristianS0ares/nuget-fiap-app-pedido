@@ -1,3 +1,53 @@
+# Documentação de SAGA no Serviço de Pedido - Fase 5
+
+## Introdução
+
+O **nuget-fiap-app-pedido** é um serviço responsável pela gestão de pedidos, utilizando uma arquitetura baseada em microserviços. A aplicação utiliza o padrão SAGA para garantir a consistência dos dados em operações distribuídas, além de mensageria para comunicação entre serviços.
+
+## SAGA
+
+O padrão SAGA é utilizado para gerenciar transações distribuídas. No contexto do serviço de pedidos, o fluxo de SAGA pode ser descrito da seguinte forma:
+1. **Início da SAGA**: Um novo pedido é criado.
+2. **Processamento**: Cada etapa do pedido (criação, pagamento, preparação) é tratada como uma transação local.
+3. **Compensação**: Em caso de falha em qualquer etapa, transações compensatórias são executadas para desfazer as ações anteriores.
+
+## Mensageria
+
+A comunicação entre serviços é realizada através de eventos assíncronos utilizando um sistema de mensageria. As principais mensagens envolvem:
+- **Pedido Criado**: Notifica os serviços de pagamento e estoque.
+- **Pagamento Realizado**: Informa o serviço de produção para iniciar a preparação.
+- **Pedido Concluído**: Atualiza o status do pedido e notifica o cliente.
+
+## Subindo o RabbitMQ para Rodar o Pedido-Service
+
+Para rodar o serviço de pedidos localmente, é necessário ter o RabbitMQ em execução. Siga os passos abaixo para subir o RabbitMQ utilizando Docker:
+
+1. **Instale o Docker**: Caso ainda não tenha, instale o Docker seguindo as instruções no [site oficial](https://www.docker.com/get-started).
+
+2. **Execute o RabbitMQ**:
+   ```bash
+   docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+   ```
+2. **Acesse o Management Console:** Abra o navegador e vá para http://localhost:15672.
+Use as credenciais padrão (username: guest, password: guest).
+4. **Verifique a Conexão:** Certifique-se de que o serviço de pedidos está configurado para se conectar ao RabbitMQ na porta 5672.
+
+## Fluxo do Pedido
+
+1. **Recepção do Pedido**: Cliente envia pedido via API.
+2. **Validação e Criação**: Pedido é validado e criado.
+3. **Emissão de Eventos**: Mensagens são enviadas para os serviços envolvidos (pagamento, estoque, produção).
+4. **Processamento Assíncrono**: Cada serviço processa a mensagem e executa sua respectiva tarefa.
+5. **Compensação (se necessário)**: Em caso de erro, mensagens compensatórias são enviadas para desfazer as operações.
+
+## Conclusão
+
+O uso do padrão SAGA e mensageria garante a consistência dos dados e a resiliência do sistema, permitindo que falhas sejam tratadas de forma isolada e compensadas adequadamente.
+
+Para mais detalhes, acesse o [repositório do nuget-fiap-app-pedido](https://github.com/ChristianS0ares/nuget-fiap-app-pedido).
+
+
+
 # NuGet FIAP - App Pedido
 
 Este repositório contém a implementação do sistema de gestão de pedidos, parte do projeto da fase IV do curso de pós-graduação em arquitetura de software da FIAP - 3SOAT. O sistema é estruturado em várias camadas, incluindo acesso a dados, lógica de negócios, e uma API para acesso via aplicativos ou serviços externos.
